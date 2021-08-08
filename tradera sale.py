@@ -1,9 +1,13 @@
 import requests
 import pandas as pd
+from tqdm import tqdm
 items = []
-for i in range(1, 206):
+seller = input('Seller url:\n')
+janson_Url = seller+'.json'
+pages = requests.get(janson_Url).json()['pagination']['pageCount']
+for i in tqdm(range(1, int(pages)+1)):
     try:
-        r = requests.get(f'https://www.tradera.com/profile/items/4835264/roffesbonader.json?page={i}')
+        r = requests.get(f'{janson_Url}?page={i}')
         if r.ok:
             janson = r.json()
             for item in janson['items']:
@@ -12,4 +16,4 @@ for i in range(1, 206):
     except:
         pass
 df = pd.json_normalize(items)
-df.to_csv('seller.csv', index=False)
+df.to_csv(f'{seller}.csv', index=False)
