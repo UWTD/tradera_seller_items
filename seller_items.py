@@ -12,8 +12,7 @@ for i in tqdm(range(1, int(pages)+1)):
             janson = r.json()
             for item in janson['items']:
                 items.append(item)
-        print(i)
     except:
         pass
 df = pd.json_normalize(items)
-df.to_csv(f'{seller}.csv', index=False)
+df.to_csv(f'{seller.split("/")[-1]}.csv', index=False)
