@@ -5,6 +5,8 @@ items = []
 seller = input('Seller url:\n')
 janson_Url = seller+'.json'
 pages = requests.get(janson_Url).json()['pagination']['pageCount']
+if int(pages) == 0:
+    pages = 1
 for i in tqdm(range(1, int(pages)+1)):
     try:
         r = requests.get(f'{janson_Url}?page={i}')
